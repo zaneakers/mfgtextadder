@@ -8,6 +8,7 @@ import wx
 import time
 from copy import deepcopy
 from typing import Set
+import re
 
 from mfgtextadderbase import mfgtextadder
 
@@ -78,8 +79,15 @@ class MfgInfoAction(mfgtextadder):
         self.spacing = 19.946399
         self.add_heading_text()
 
-        self.getremovebuttons()
-        
+        for i in self.getremovebuttons():
+            button = i.replace("self.", "")
+            self.removebuttonheyo = getattr(self, button, None)
+            print("removebutton", self.removebuttonheyo)
+            if self.removebuttonheyo.GetValue() is True:
+                self.buttontoremove = i
+                print(f"Going to remove plugin: {button}")
+                self.removeplugin()
+
         # default text additions
         if self.copper_count.IsChecked():
             self.number_copperlayers()
@@ -120,6 +128,7 @@ class MfgInfoAction(mfgtextadder):
         if self.min_hole_diameter.IsChecked():
             print("Minimum Hole Diameter checkbox checked.")
             self.add_holediameter()
+
         if self.imped_ctrl.IsChecked():
             print("Impedance Control checkbox checked.")
             self.add_impedctrl()
@@ -135,7 +144,7 @@ class MfgInfoAction(mfgtextadder):
             # create function
             self.addtopluginfn()
 
-        
+        for i in self.
         
 
   ###########add text functions############
@@ -343,15 +352,15 @@ class MfgInfoAction(mfgtextadder):
             plugin_title = "myballs"
         removetitle = plugin_title + "_removebutton"
 
-        marker = "        addtopluginsizer.Add( self.removebutton, 0, wx.ALL, 5 )"
+        markeradd = "        addtopluginsizer.SetNonFlexibleGrowMode( wx.FLEX_GROWMODE_SPECIFIED )"
         filename = "/home/zane-akers/python_scripts/kicadpython/mfgtextadder/mfgtextadderbase.py"
         with open(filename, "r") as file:
             lines = file.readlines()
         newlines = []
         for index, line in enumerate(lines):
             newlines.append(line)
-            if marker in line:
-                newlines.insert(index+1, f"        self.{plugin_title} = wx.CheckBox(self, wx.ID_ANY, \"{plugin_title}\", wx.DefaultPosition, wx.DefaultSize, 0)\n")
+            if markeradd in line:
+                newlines.insert(index+1, f"        \nself.{plugin_title} = wx.CheckBox(self, wx.ID_ANY, \"{plugin_title}\", wx.DefaultPosition, wx.DefaultSize, 0)\n")
                 newlines.append(f"        addtopluginsizer.Add(self.{plugin_title}, 0, wx.ALL, 5)\n\n")
                 newlines.append(f"        self.{removetitle} = wx.ToggleButton( self, wx.ID_ANY, \"{removetitle}\", wx.DefaultPosition, wx.DefaultSize, 0 )\n")
                 newlines.append(f"        addtopluginsizer.Add(self.{removetitle}, 0, wx.ALL, 5)\n\n")
@@ -360,18 +369,20 @@ class MfgInfoAction(mfgtextadder):
         
         
     def removeplugin(self):
-        marker = "        addtopluginsizer.Add( self.removebutton, 0, wx.ALL, 5 )"
+        marker1 = self.buttontoremove
+        marker2 = self.buttontoremove.replace("_removebutton", "")
+        print("buttontoremove", self.buttontoremove)
         filename = "/home/zane-akers/python_scripts/kicadpython/mfgtextadder/mfgtextadderbase.py"
         with open(filename, "r") as file:
             lines = file.readlines()
         newlines = []
-        for line in lines:
+        indexesto_delete = []
+        for index, line in enumerate(lines):
             newlines.append(line)
-            if marker in line:
-                newlines.append("        self.newcheckbox = wx.CheckBox(self, wx.ID_ANY, 'myballs', wx.DefaultPosition, wx.DefaultSize, 0)\n")
-                newlines.append("        addtopluginsizer.Add(self.newcheckbox, 0, wx.ALL, 5)\n\n")
-                newlines.append("        self.removebutton = wx.ToggleButton( self, wx.ID_ANY, _(u\"remove\"), wx.DefaultPosition, wx.DefaultSize, 0 )\n")
-                newlines.append("        addtopluginsizer.Add(self.removebutton, 0, wx.ALL, 5)\n\n")
+            if marker1 in line or marker2 in line:
+                indexesto_delete.append(index)
+        for idx in reversed(indexesto_delete):
+            del newlines[idx]
         with open(filename, "w") as file:
             file.writelines(newlines)
 
@@ -389,8 +400,35 @@ class MfgInfoAction(mfgtextadder):
             if marker in line:
                 buttonlist.append(line)
         print("buttonsfound", buttonlist)
-        return buttonlist
+        var_names = []
+        for line in buttonlist:
+            match = re.search(r'self\.\w+', line)
+            if match:
+                var_names.append(match.group(0))
+
+        print(var_names)
+        return var_names
     
+    def getplugins(self):
+        markercheck = "wx.CheckBox"
+        filename = "/home/zane-akers/python_scripts/kicadpython/mfgtextadder/mfgtextadderbase.py"
+        checkboxlist = []
+        with open(filename, "r") as file:
+            lines = file.readlines()
+        for index, line in enumerate(lines):
+            if markercheck in line:
+                checkboxlist.append(line)
+        print("buttonsfound", checkboxlist)
+        var_names = []
+        for line in checkboxlist:
+            match = re.search(r'self\.\w+', line)
+            if match:
+                var_names.append(match.group(0))
+
+        print(var_names)
+        return var_names
+            
+
 if __name__ == "__main__":
     app = wx.App()
     rt = MfgInfoAction()

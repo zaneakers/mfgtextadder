@@ -191,26 +191,34 @@ class mfgtextadder ( wx.Dialog ):
         addtopluginsizer = wx.FlexGridSizer( 0, 2, 0, 0 )
         addtopluginsizer.SetFlexibleDirection( wx.BOTH )
         addtopluginsizer.SetNonFlexibleGrowMode( wx.FLEX_GROWMODE_SPECIFIED )
+        
+        self.testball2 = wx.CheckBox(self, wx.ID_ANY, "testball2", wx.DefaultPosition, wx.DefaultSize, 0)
+        addtopluginsizer.Add(self.testball2, 0, wx.ALL, 5)
 
+        self.testball2_removebutton = wx.ToggleButton( self, wx.ID_ANY, "testball2_removebutton", wx.DefaultPosition, wx.DefaultSize, 0 )
+        addtopluginsizer.Add(self.testball2_removebutton, 0, wx.ALL, 5)
+
+        
+        self.testballs = wx.CheckBox(self, wx.ID_ANY, "testballs", wx.DefaultPosition, wx.DefaultSize, 0)
+        addtopluginsizer.Add(self.testballs, 0, wx.ALL, 5)
+
+        self.testballs_removebutton = wx.ToggleButton( self, wx.ID_ANY, "testballs_removebutton", wx.DefaultPosition, wx.DefaultSize, 0 )
+        addtopluginsizer.Add(self.testballs_removebutton, 0, wx.ALL, 5)
+
+
+
+        '''
         self.m_checkBox17 = wx.CheckBox( self, wx.ID_ANY, _(u"Check Me!"), wx.DefaultPosition, wx.DefaultSize, 0 )
         addtopluginsizer.Add( self.m_checkBox17, 0, wx.ALL, 5 )
 
         self.removebutton = wx.ToggleButton( self, wx.ID_ANY, _(u"remove"), wx.DefaultPosition, wx.DefaultSize, 0 )
         addtopluginsizer.Add( self.removebutton, 0, wx.ALL, 5 )
-        self.title_here = wx.CheckBox(self, wx.ID_ANY, "title_here", wx.DefaultPosition, wx.DefaultSize, 0)
-        addtopluginsizer.Add(self.title_here, 0, wx.ALL, 5)
-        self.title_here_removebutton = wx.ToggleButton( self, wx.ID_ANY, "title_here_removebutton", wx.DefaultPosition, wx.DefaultSize, 0 )
-        addtopluginsizer.Add(self.title_here_removebutton, 0, wx.ALL, 5)
-        self.title_here = wx.CheckBox(self, wx.ID_ANY, "title_here", wx.DefaultPosition, wx.DefaultSize, 0)
-        addtopluginsizer.Add(self.title_here, 0, wx.ALL, 5)
-        self.title_here_removebutton = wx.ToggleButton( self, wx.ID_ANY, "title_here_removebutton", wx.DefaultPosition, wx.DefaultSize, 0 )
-        addtopluginsizer.Add(self.title_here_removebutton, 0, wx.ALL, 5)
+        '''
 
+
+       
         mainsizer.Add( addtopluginsizer, 1, wx.EXPAND, 2 )
-
-
         overallsizer.Add( mainsizer, 1, wx.EXPAND, 5 )
-
         editortextoverallsizer = wx.FlexGridSizer( 2, 4, 0, 0 )
         editortextoverallsizer.SetFlexibleDirection( wx.BOTH )
         editortextoverallsizer.SetNonFlexibleGrowMode( wx.FLEX_GROWMODE_SPECIFIED )
