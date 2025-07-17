@@ -79,7 +79,7 @@ class MfgInfoAction(mfgtextadder):
         self.spacing = 19.946399
         self.add_heading_text()
 
-        for i in self.getremovebuttons():
+        for i in self.getremovebuttonslist():
             button = i.replace("self.", "")
             self.removebuttonheyo = getattr(self, button, None)
             print("removebutton", self.removebuttonheyo)
@@ -87,6 +87,17 @@ class MfgInfoAction(mfgtextadder):
                 self.buttontoremove = i
                 print(f"Going to remove plugin: {button}")
                 self.removeplugin()
+
+        
+        for plugin in self.getusermadepluginslist():
+            checkbox = plugin.replace("self.", "")
+            self.originalcheckbox = getattr(self, checkbox, None) #get original button variable in mfgtextadder
+            print("user made checkbox", self.originalcheckbox)
+            if self.originalcheckbox.GetValue() is True:
+                self.userpluginchecked = plugin
+                print(f"Going to initiate: {checkbox}")
+                self.usermadepluginbackend(checkbox)
+
 
         # default text additions
         if self.copper_count.IsChecked():
@@ -138,13 +149,13 @@ class MfgInfoAction(mfgtextadder):
             self.add_dimensions()
 
         if self.applyonce.GetValue():
-            self.add_textonce()
+            self.add_textonce(self.editortext.GetValue())
 
         if self.addtoplugin.GetValue():
             # create function
-            self.addtopluginfn()
+            self.createusermadeplugin()
 
-        for i in self.
+        
         
 
   ###########add text functions############
@@ -330,10 +341,10 @@ class MfgInfoAction(mfgtextadder):
         body.layer = BoardLayer.BL_F_Fab  # Front fabrication layer
         self.board.create_items(body)
 
-    def add_textonce(self):
+    def add_textonce(self, screwyou):
         # Create and add body text
         body = BoardText()
-        body.value = " idk man " + self.editortext.GetValue() + " balls"
+        body.value =  screwyou 
         body.position = Vector2.from_xy_mm(232.294992, self.spacing)
         self.spacing += 4
         txtatt = TextAttributes()
@@ -343,14 +354,17 @@ class MfgInfoAction(mfgtextadder):
         body.layer = BoardLayer.BL_F_Fab  # Front fabrication layer
         self.board.create_items(body)
 
-    def addtopluginfn(self):
+    def createusermadeplugin(self):
         
-        self.add_textonce()
+        
         ###get user input regarding plugin title and name of remove button
         plugin_title = self.titleinput.GetValue().strip().replace(" ", "_")
         if not plugin_title:
             plugin_title = "myballs"
         removetitle = plugin_title + "_removebutton"
+
+        self.add_textonce(self.editortext.GetValue())
+
 
         markeradd = "        addtopluginsizer.SetNonFlexibleGrowMode( wx.FLEX_GROWMODE_SPECIFIED )"
         filename = "/home/zane-akers/python_scripts/kicadpython/mfgtextadder/mfgtextadderbase.py"
@@ -360,8 +374,9 @@ class MfgInfoAction(mfgtextadder):
         for index, line in enumerate(lines):
             newlines.append(line)
             if markeradd in line:
-                newlines.insert(index+1, f"        \nself.{plugin_title} = wx.CheckBox(self, wx.ID_ANY, \"{plugin_title}\", wx.DefaultPosition, wx.DefaultSize, 0)\n")
+                newlines.insert(index+1, f"\n        self.{plugin_title} = wx.CheckBox(self, wx.ID_ANY, \"{plugin_title}\", wx.DefaultPosition, wx.DefaultSize, 0)\n")
                 newlines.append(f"        addtopluginsizer.Add(self.{plugin_title}, 0, wx.ALL, 5)\n\n")
+                newlines.append(f"#text that {plugin_title} spits out into the pcb: {self.editortext.GetValue()}\n")
                 newlines.append(f"        self.{removetitle} = wx.ToggleButton( self, wx.ID_ANY, \"{removetitle}\", wx.DefaultPosition, wx.DefaultSize, 0 )\n")
                 newlines.append(f"        addtopluginsizer.Add(self.{removetitle}, 0, wx.ALL, 5)\n\n")
         with open(filename, "w") as file:
@@ -388,7 +403,7 @@ class MfgInfoAction(mfgtextadder):
 
         self.Layout()
 
-    def getremovebuttons(self):
+    def getremovebuttonslist(self):
         marker = "_removebutton"
         filename = "/home/zane-akers/python_scripts/kicadpython/mfgtextadder/mfgtextadderbase.py"
         buttonlist = []
@@ -399,17 +414,22 @@ class MfgInfoAction(mfgtextadder):
            # newlines.append(line)
             if marker in line:
                 buttonlist.append(line)
-        print("buttonsfound", buttonlist)
+       # print("buttonsfound", buttonlist)
         var_names = []
         for line in buttonlist:
             match = re.search(r'self\.\w+', line)
             if match:
                 var_names.append(match.group(0))
 
-        print(var_names)
+        #print(var_names)
         return var_names
     
-    def getplugins(self):
+    def getusermadepluginslist(self):
+        standardcheckbox = ['self.drill_plot_show', 'self.copper_count', 
+                            'self.front_copperweight', 'self.back_copperweight', 
+                            'self.mask_color', 'self.silkscreen_color', 'self.board_thickness', 
+                            'self.copper_srf_overall', 'self.trackwidth_spacing', 
+                            'self.min_hole_diameter', 'self.imped_ctrl', 'self.dimensions']
         markercheck = "wx.CheckBox"
         filename = "/home/zane-akers/python_scripts/kicadpython/mfgtextadder/mfgtextadderbase.py"
         checkboxlist = []
@@ -418,16 +438,34 @@ class MfgInfoAction(mfgtextadder):
         for index, line in enumerate(lines):
             if markercheck in line:
                 checkboxlist.append(line)
-        print("buttonsfound", checkboxlist)
-        var_names = []
+        #print("check boxes found", checkboxlist)
+        plugin_names = []
         for line in checkboxlist:
             match = re.search(r'self\.\w+', line)
-            if match:
-                var_names.append(match.group(0))
+            if match and match.group(0) not in standardcheckbox:
+                plugin_names.append(match.group(0))
 
-        print(var_names)
-        return var_names
+        print(plugin_names)
+        return plugin_names
             
+
+    def usermadepluginbackend(self, plugin_title):
+        marker = f"#text that {plugin_title} spits out into the pcb: "
+        filename = "/home/zane-akers/python_scripts/kicadpython/mfgtextadder/mfgtextadderbase.py"
+
+        with open(filename, "r") as file:
+            lines = file.readlines()
+
+        usermadeplugintext = ""
+        for line in lines:
+            if marker in line:
+                # Keep only the part after the marker
+                usermadeplugintext += line.split(marker)[1] + "\n"
+
+        print(usermadeplugintext)
+
+        self.add_textonce(usermadeplugintext)
+        
 
 if __name__ == "__main__":
     app = wx.App()

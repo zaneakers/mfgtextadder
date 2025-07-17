@@ -191,29 +191,27 @@ class mfgtextadder ( wx.Dialog ):
         addtopluginsizer = wx.FlexGridSizer( 0, 2, 0, 0 )
         addtopluginsizer.SetFlexibleDirection( wx.BOTH )
         addtopluginsizer.SetNonFlexibleGrowMode( wx.FLEX_GROWMODE_SPECIFIED )
+
+        self.cmonballs = wx.CheckBox(self, wx.ID_ANY, "cmonballs", wx.DefaultPosition, wx.DefaultSize, 0)
+        addtopluginsizer.Add(self.cmonballs, 0, wx.ALL, 5)
+
+#text that cmonballs spits out into the pcb: ppppls keep working
+        self.cmonballs_removebutton = wx.ToggleButton( self, wx.ID_ANY, "cmonballs_removebutton", wx.DefaultPosition, wx.DefaultSize, 0 )
+        addtopluginsizer.Add(self.cmonballs_removebutton, 0, wx.ALL, 5)
+
         
-        self.testball2 = wx.CheckBox(self, wx.ID_ANY, "testball2", wx.DefaultPosition, wx.DefaultSize, 0)
-        addtopluginsizer.Add(self.testball2, 0, wx.ALL, 5)
+        self.testball3 = wx.CheckBox(self, wx.ID_ANY, "testball3", wx.DefaultPosition, wx.DefaultSize, 0)
+        addtopluginsizer.Add(self.testball3, 0, wx.ALL, 5)
 
-        self.testball2_removebutton = wx.ToggleButton( self, wx.ID_ANY, "testball2_removebutton", wx.DefaultPosition, wx.DefaultSize, 0 )
-        addtopluginsizer.Add(self.testball2_removebutton, 0, wx.ALL, 5)
+#text that testball3 spits out into the pcb: pls work
+        self.testball3_removebutton = wx.ToggleButton( self, wx.ID_ANY, "testball3_removebutton", wx.DefaultPosition, wx.DefaultSize, 0 )
+        addtopluginsizer.Add(self.testball3_removebutton, 0, wx.ALL, 5)
 
         
-        self.testballs = wx.CheckBox(self, wx.ID_ANY, "testballs", wx.DefaultPosition, wx.DefaultSize, 0)
-        addtopluginsizer.Add(self.testballs, 0, wx.ALL, 5)
-
-        self.testballs_removebutton = wx.ToggleButton( self, wx.ID_ANY, "testballs_removebutton", wx.DefaultPosition, wx.DefaultSize, 0 )
-        addtopluginsizer.Add(self.testballs_removebutton, 0, wx.ALL, 5)
 
 
+        
 
-        '''
-        self.m_checkBox17 = wx.CheckBox( self, wx.ID_ANY, _(u"Check Me!"), wx.DefaultPosition, wx.DefaultSize, 0 )
-        addtopluginsizer.Add( self.m_checkBox17, 0, wx.ALL, 5 )
-
-        self.removebutton = wx.ToggleButton( self, wx.ID_ANY, _(u"remove"), wx.DefaultPosition, wx.DefaultSize, 0 )
-        addtopluginsizer.Add( self.removebutton, 0, wx.ALL, 5 )
-        '''
 
 
        
