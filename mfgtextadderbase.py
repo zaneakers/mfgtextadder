@@ -36,39 +36,51 @@ class mfgtextadder ( wx.Dialog ):
 
         sizer_names.SetMinSize( wx.Size( 270,648 ) )
         self.drill_plot_show = wx.CheckBox( self, wx.ID_ANY, _(u"Drill Plot Shows Finished Hole Sizes"), wx.DefaultPosition, wx.DefaultSize, 0 )
+        self.drill_plot_show.SetValue(True)
         sizer_names.Add( self.drill_plot_show, 0, wx.ALL, 5 )
 
         self.copper_count = wx.CheckBox( self, wx.ID_ANY, _(u"Copper Layer Count"), wx.DefaultPosition, wx.DefaultSize, 0 )
+        self.copper_count.SetValue(True)
         sizer_names.Add( self.copper_count, 0, wx.ALL, 5 )
 
         self.front_copperweight = wx.CheckBox( self, wx.ID_ANY, _(u"Front Copper Weight"), wx.DefaultPosition, wx.DefaultSize, 0 )
+        self.front_copperweight.SetValue(True)
         sizer_names.Add( self.front_copperweight, 0, wx.ALL, 5 )
 
         self.back_copperweight = wx.CheckBox( self, wx.ID_ANY, _(u"Back Copper Weight"), wx.DefaultPosition, wx.DefaultSize, 0 )
+        self.back_copperweight.SetValue(True)
         sizer_names.Add( self.back_copperweight, 0, wx.ALL, 5 )
 
         self.mask_color = wx.CheckBox( self, wx.ID_ANY, _(u"Solder Mask Color"), wx.DefaultPosition, wx.DefaultSize, 0 )
+        self.mask_color.SetValue(True)
         sizer_names.Add( self.mask_color, 0, wx.ALL, 5 )
 
         self.silkscreen_color = wx.CheckBox( self, wx.ID_ANY, _(u"Silkscreen Color"), wx.DefaultPosition, wx.DefaultSize, 0 )
+        self.silkscreen_color.SetValue(True)
         sizer_names.Add( self.silkscreen_color, 0, wx.ALL, 5 )
 
         self.board_thickness = wx.CheckBox( self, wx.ID_ANY, _(u"Total Board Thickness"), wx.DefaultPosition, wx.DefaultSize, 0 )
+        self.board_thickness.SetValue(True)
         sizer_names.Add( self.board_thickness, 0, wx.ALL, 5 )
 
         self.copper_srf_overall = wx.CheckBox( self, wx.ID_ANY, _(u"Copper Surface Finish/Thickness"), wx.DefaultPosition, wx.DefaultSize, 0 )
+        self.copper_srf_overall.SetValue(True)
         sizer_names.Add( self.copper_srf_overall, 0, wx.ALL, 5 )
 
         self.trackwidth_spacing = wx.CheckBox( self, wx.ID_ANY, _(u"Min. Track width/spacing"), wx.DefaultPosition, wx.DefaultSize, 0 )
+        self.trackwidth_spacing.SetValue(True)
         sizer_names.Add( self.trackwidth_spacing, 0, wx.ALL, 5 )
 
         self.min_hole_diameter = wx.CheckBox( self, wx.ID_ANY, _(u"Min. Hole Diameter"), wx.DefaultPosition, wx.DefaultSize, 0 )
+        self.min_hole_diameter.SetValue(True)
         sizer_names.Add( self.min_hole_diameter, 0, wx.ALL, 5 )
 
         self.imped_ctrl = wx.CheckBox( self, wx.ID_ANY, _(u"Impedance Control"), wx.DefaultPosition, wx.DefaultSize, 0 )
+        self.imped_ctrl.SetValue(True)
         sizer_names.Add( self.imped_ctrl, 0, wx.ALL, 5 )
 
         self.dimensions = wx.CheckBox( self, wx.ID_ANY, _(u"Dimensions (width/height)"), wx.DefaultPosition, wx.DefaultSize, 0 )
+        self.dimensions.SetValue(True)
         sizer_names.Add( self.dimensions, 0, wx.ALL, 5 )
 
 
@@ -192,38 +204,19 @@ class mfgtextadder ( wx.Dialog ):
         addtopluginsizer.SetFlexibleDirection( wx.BOTH )
         addtopluginsizer.SetNonFlexibleGrowMode( wx.FLEX_GROWMODE_SPECIFIED )
 
-        self.cmonballs = wx.CheckBox(self, wx.ID_ANY, "cmonballs", wx.DefaultPosition, wx.DefaultSize, 0)
-        addtopluginsizer.Add(self.cmonballs, 0, wx.ALL, 5)
 
-#text that cmonballs spits out into the pcb: ppppls keep working
-        self.cmonballs_removebutton = wx.ToggleButton( self, wx.ID_ANY, "cmonballs_removebutton", wx.DefaultPosition, wx.DefaultSize, 0 )
-        addtopluginsizer.Add(self.cmonballs_removebutton, 0, wx.ALL, 5)
-
-        
-        self.testball3 = wx.CheckBox(self, wx.ID_ANY, "testball3", wx.DefaultPosition, wx.DefaultSize, 0)
-        addtopluginsizer.Add(self.testball3, 0, wx.ALL, 5)
-
-#text that testball3 spits out into the pcb: pls work
-        self.testball3_removebutton = wx.ToggleButton( self, wx.ID_ANY, "testball3_removebutton", wx.DefaultPosition, wx.DefaultSize, 0 )
-        addtopluginsizer.Add(self.testball3_removebutton, 0, wx.ALL, 5)
-
-        
-
-
-        
-
-
-
-       
         mainsizer.Add( addtopluginsizer, 1, wx.EXPAND, 2 )
+
+
         overallsizer.Add( mainsizer, 1, wx.EXPAND, 5 )
+
         editortextoverallsizer = wx.FlexGridSizer( 2, 4, 0, 0 )
         editortextoverallsizer.SetFlexibleDirection( wx.BOTH )
         editortextoverallsizer.SetNonFlexibleGrowMode( wx.FLEX_GROWMODE_SPECIFIED )
 
         plugintitlesizer = wx.BoxSizer( wx.VERTICAL )
 
-        self.titleinput = wx.TextCtrl( self, wx.ID_ANY, _(u"title here"), wx.DefaultPosition, wx.DefaultSize, 0 )
+        self.titleinput = wx.TextCtrl( self, wx.ID_ANY, _(u"customadder title"), wx.DefaultPosition, wx.DefaultSize, wx.TE_MULTILINE )
         plugintitlesizer.Add( self.titleinput, 0, wx.ALL, 5 )
 
 
@@ -233,7 +226,7 @@ class mfgtextadder ( wx.Dialog ):
         editortextsizer.SetFlexibleDirection( wx.BOTH )
         editortextsizer.SetNonFlexibleGrowMode( wx.FLEX_GROWMODE_SPECIFIED )
 
-        self.editortext = wx.TextCtrl( self, wx.ID_ANY, _(u"this very professional text box is so you can add your own text to the pcb"), wx.DefaultPosition, wx.Size( 700,50 ), wx.TE_MULTILINE )
+        self.editortext = wx.TextCtrl( self, wx.ID_ANY, _(u" this very professional text box is so you can add your own text to the pcb"), wx.DefaultPosition, wx.Size( 700,50 ), wx.TE_MULTILINE )
         editortextsizer.Add( self.editortext, 0, wx.ALL, 5 )
 
 

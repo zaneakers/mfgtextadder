@@ -46,28 +46,19 @@ class MfgInfoAction(mfgtextadder):
         for layer in stackup.layers:
             if layer.material_name == "copper":
                 coppercounter += 1
-                #print(f"copper layers {coppercounter}")
-        #return coppercounter
-        body = BoardText()
-        body.value = " Number of Copper Layers: " + str(coppercounter)
-        body.position = Vector2.from_xy_mm(232.294992, self.spacing)
-        self.spacing += 4
-        txtatt = TextAttributes()
-        txtatt.size = Vector2.from_xy_mm(1, 1)
-        txtatt.stroke_width = 150000  # nanometers
-        body.attributes = txtatt
-        body.layer = BoardLayer.BL_F_Fab  # Front fabrication layer
-        
-        self.board.create_items(body)
-    
+
+        self.add_textonce(" Number of Copper Layers: " + str(coppercounter), False, False)
+
     def add_heading_text(self):
         # Create and add heading text
+        
         heading = BoardText()
         heading.value = "FABRICATION NOTES"
-        heading.position = Vector2.from_xy_mm(233.310997, self.spacing)
+        heading.position = Vector2.from_xy_mm(220.310997, self.spacing)
         self.spacing += 6
         txtatt = TextAttributes()
         txtatt.size = Vector2.from_xy_mm(3, 3)
+        txtatt.horizontal_alignment = 1 #left alignment
         txtatt.stroke_width = 150000  # nanometers (7 mm thickness equivalent)
         heading.attributes = txtatt
         heading.layer = BoardLayer.BL_F_Fab  # Front fabrication layer
@@ -75,8 +66,10 @@ class MfgInfoAction(mfgtextadder):
         self.board.create_items(heading)
 
     def run(self, event):
-        
+        alphabet = ["A.  ", "B.  ", "C.  ", "D.  ", "E.  ", "F.  ", "G.  ", "H.  ", "I.  ", "J.  ", "K.  ", "L.  ", "M.  "]
+        index = 0
         self.spacing = 19.946399
+        self.horizontal = 220.310997
         self.add_heading_text()
 
         for i in self.getremovebuttonslist():
@@ -101,55 +94,109 @@ class MfgInfoAction(mfgtextadder):
 
         # default text additions
         if self.copper_count.IsChecked():
+            self.horizontal = 220.310997
+            self.add_textonce(alphabet[index], False, True)
+            index += 1
             self.number_copperlayers()
+            
 
         if self.drill_plot_show.IsChecked():
             print("Drill Plot checkbox checked.")
+            self.horizontal = 220.310997
+            self.add_textonce(alphabet[index], False, True)
+            index += 1
             self.add_drillplot()
+           
 
         # Add text based on checkbox selections
         if self.silkscreen_color.IsChecked():
             print("Silkscreen checkbox checked.")
+            self.horizontal = 220.310997
+            self.add_textonce(alphabet[index], False, True)
+            index += 1
             self.add_silkscreen()
+            
 
         if self.front_copperweight.IsChecked():
             print("Front Copper checkbox checked.")
+            self.horizontal = 220.310997
+            self.add_textonce(alphabet[index], False, True)
+            index += 1
             self.add_frontcopper()
+            
+
 
         if self.back_copperweight.IsChecked():
             print("Back Copper checkbox checked.")
+            self.horizontal = 220.310997
+            self.add_textonce(alphabet[index], False, True)
+            index += 1
             self.add_backcopper()
-
+            
+        
         if self.mask_color.IsChecked():
             print("Soldermask checkbox checked.")
+            self.horizontal = 220.310997
+            self.add_textonce(alphabet[index], False, True)
+            index += 1
             self.add_soldercolor()
-
+   
         if self.board_thickness.IsChecked():
             print("Board Thickness checkbox checked.")
+            self.horizontal = 220.310997
+            self.add_textonce(alphabet[index], False, True)
+            index += 1
             self.add_boardthickness()
-
+     
         if self.copper_srf_overall.IsChecked():
             print("Copper Surface Finish checkbox checked.")
+            self.horizontal = 220.310997
+            self.add_textonce(alphabet[index], False, True)
+            index += 1
             self.add_copper_surface()
         
+
         if self.trackwidth_spacing.IsChecked():
             print("Track Width and Spacing checkbox checked.")
+            self.horizontal = 220.310997
+            self.add_textonce(alphabet[index], False, True)
+            index += 1
             self.add_trackwidth_spacing()
+           
         
+
+# add new line before hole diamter, print hole diameter, add text on next line and a space on next line
         if self.min_hole_diameter.IsChecked():
             print("Minimum Hole Diameter checkbox checked.")
+         
+            self.horizontal = 220.310997
+            self.add_textonce(alphabet[index], False, True)
             self.add_holediameter()
+            
+            index += 1
 
         if self.imped_ctrl.IsChecked():
             print("Impedance Control checkbox checked.")
+            self.horizontal = 220.310997
+            self.add_textonce(alphabet[index], False, True)
             self.add_impedctrl()
+            index += 1
 
         if self.dimensions.IsChecked():
             print("Dimensions checkbox checked.")
+            self.horizontal = 220.310997
+            self.add_textonce(alphabet[index], False, True)
+            index += 1
+
             self.add_dimensions()
+           
+            
 
         if self.applyonce.GetValue():
-            self.add_textonce(self.editortext.GetValue())
+            self.horizontal = 220.310997
+            self.add_textonce(alphabet[index], False, True)
+            index += 1
+            self.add_textonce(self.editortext.GetValue(), False, False)
 
         if self.addtoplugin.GetValue():
             # create function
@@ -161,195 +208,116 @@ class MfgInfoAction(mfgtextadder):
   ###########add text functions############
     def add_drillplot(self):
         # Create and add body text
-        body = BoardText()
-        body.value = " Drill Plot Shows Finished Hole Sizes"
-        body.position = Vector2.from_xy_mm(232.294992, self.spacing)
-        self.spacing += 4
-        txtatt = TextAttributes()
-        txtatt.size = Vector2.from_xy_mm(1, 1)
-        txtatt.stroke_width = 150000  # nanometers
-        body.attributes = txtatt
-        body.layer = BoardLayer.BL_F_Fab  # Front fabrication layer
-        self.board.create_items(body)
-
+        self.add_textonce(" Drill Plot Shows Finished Hole Sizes", False, False)
+       
     def add_silkscreen(self):
         # Create and add body text
-        body = BoardText()
         if self.silkscreen_value.GetStringSelection() == "White":
-            body.value = " Silkscreen color: White"
+            self.add_textonce(" Silkscreen color: White", False, False)
         elif self.silkscreen_value.GetStringSelection() == "Black":
-            body.value = " Silkscreen color: Black"
-        body.position = Vector2.from_xy_mm(232.294992, self.spacing)
-        self.spacing += 4
-        txtatt = TextAttributes()
-        txtatt.size = Vector2.from_xy_mm(1, 1)
-        txtatt.stroke_width = 150000  # nanometers
-        body.attributes = txtatt
-        body.layer = BoardLayer.BL_F_Fab  # Front fabrication layer
-        self.board.create_items(body)
+            self.add_textonce(" Silkscreen color: Black", False, False)
 
     def add_frontcopper(self):
         # Create and add body text
-        body = BoardText()
-        body.value = " Front Copper weight: " + self.frontcu_value.GetValue() + " oz"
-        body.position = Vector2.from_xy_mm(232.294992, self.spacing)
-        self.spacing += 4
-        txtatt = TextAttributes()
-        txtatt.size = Vector2.from_xy_mm(1, 1)
-        txtatt.stroke_width = 150000  # nanometers
-        body.attributes = txtatt
-        body.layer = BoardLayer.BL_F_Fab  # Front fabrication layer
-        self.board.create_items(body)
+        self.add_textonce(" Front Copper weight: " + self.frontcu_value.GetValue() + " oz", False, False)
+       
 
     def add_backcopper(self):
         # Create and add body text
-        body = BoardText()
-        body.value = " Back Copper weight: " + self.backcu_value.GetValue() + " oz"
-        body.position = Vector2.from_xy_mm(232.294992, self.spacing)
-        self.spacing += 4
-        txtatt = TextAttributes()
-        txtatt.size = Vector2.from_xy_mm(1, 1)
-        txtatt.stroke_width = 150000  # nanometers
-        body.attributes = txtatt
-        body.layer = BoardLayer.BL_F_Fab  # Front fabrication layer
-        self.board.create_items(body)
+        self.add_textonce(" Back Copper weight: " + self.backcu_value.GetValue() + " oz", False, False)
+       
 
     def add_soldercolor(self):
         # Create and add body text
         body = BoardText()
         if self.mask_value.GetStringSelection() == "Green":
-            body.value = " Soldermask color: Green"
+            self.add_textonce(" Soldermask color: Green", False, False)
         elif self.mask_value.GetStringSelection() == "Red":
-            body.value = " Soldermask color: Red"
+            self.add_textonce(" Soldermask color: Red", False, False)
         elif self.mask_value.GetStringSelection() == "Blue":
-            body.value = " Soldermask color: Blue"
+            self.add_textonce(" Soldermask color: Blue", False, False)
         elif self.mask_value.GetStringSelection() == "Yellow":
-            body.value = " Soldermask color: Yellow"
+            self.add_textonce(" Soldermask color: Yellow", False, False)
         elif self.mask_value.GetStringSelection() == "White":
-            body.value = " Soldermask color: White"
+            self.add_textonce(" Soldermask color: White", False, False)
         elif self.mask_value.GetStringSelection() == "Purple":
-            body.value = " Soldermask color: Purple"
+            self.add_textonce(" Soldermask color: Purple", False, False)
         elif self.mask_value.GetStringSelection() == "Black":
-            body.value = " Soldermask color: Black"
-        body.position = Vector2.from_xy_mm(232.294992, self.spacing)
-        self.spacing += 4
-        txtatt = TextAttributes()
-        txtatt.size = Vector2.from_xy_mm(1, 1)
-        txtatt.stroke_width = 150000  # nanometers
-        body.attributes = txtatt
-        body.layer = BoardLayer.BL_F_Fab  # Front fabrication layer
-        
-        self.board.create_items(body)
+            self.add_textonce(" Soldermask color: Black", False, False)
 
     def add_boardthickness(self):
         # Create and add body text
-        body = BoardText()
-        body.value = " Board thickness: " + self.thickness_value.GetValue() + " mm"
-        body.position = Vector2.from_xy_mm(232.294992, self.spacing)
-        self.spacing += 5
-        txtatt = TextAttributes()
-        txtatt.size = Vector2.from_xy_mm(1, 1)
-        txtatt.stroke_width = 150000  # nanometers
-        body.attributes = txtatt
-        body.layer = BoardLayer.BL_F_Fab  # Front fabrication layer
-        self.board.create_items(body)
+        self.add_textonce(" Board thickness: " + self.thickness_value.GetValue() + " mm", False, False)
+        
     
     def add_copper_surface(self):
         # Create and add body text
-        body = BoardText()
         
         if self.cu_finish_value.GetStringSelection() == "Immersion Gold (ENIG)":
-            body.value = " Copper finish color: Immersion Gold (ENIG)"
+            self.add_textonce(" Copper finish color: Immersion Gold (ENIG)", False, False)
         elif self.cu_finish_value.GetStringSelection() == "Immersion Silver (Ag)":
-            body.value = " Copper finish color: Immersion Silver (Ag)"
+            self.add_textonce(" Copper finish color: Immersion Silver (Ag)", False, False)
         elif self.cu_finish_value.GetStringSelection() == "HASL Lead-Free":
-            body.value = " Copper finish color: HASL Lead-Free"
+            self.add_textonce(" Copper finish color: HASL Lead-Free", False, False)
         elif self.cu_finish_value.GetStringSelection() == "HASL Leaded":
-            body.value = " Copper finish color: HASL Leaded"
+            self.add_textonce(" Copper finish color: HASL Leaded", False, False)
         elif self.cu_finish_value.GetStringSelection() == "OSP (copper core boards only)":
-            body.value = " Copper finish color: OSP (copper core boards only)"
+            self.add_textonce(" Copper finish color: OSP (copper core boards only)", False, False)
         else :
             print("No copper finish selected.")
-        body.value += "\n Copper thickness: " + self.copper_thick_value.GetValue() + " µm"
+            self.add_textonce("\n Copper finish color: None", False, False)
 
-        body.position = Vector2.from_xy_mm(232.294992, self.spacing)
-        self.spacing += 6
-        txtatt = TextAttributes()
-        txtatt.line_spacing = 2
-        txtatt.multiline = True
-        txtatt.size = Vector2.from_xy_mm(1, 1)
-        txtatt.stroke_width = 150000  # nanometers
-        body.attributes = txtatt
-        body.layer = BoardLayer.BL_F_Fab  # Front fabrication layer
-        self.board.create_items(body)
+        self.add_textonce("\n Copper thickness: " + self.copper_thick_value.GetValue() + " µm", False, False)
+
 
     def add_trackwidth_spacing(self):
         # Create and add body text
-        body = BoardText()
-        body.value = " Track width: " + self.track_width_value.GetValue() + " mm"
-        body.value += "\n Track spacing: " + self.track_spacing_value.GetValue() + " mm"
-        body.position = Vector2.from_xy_mm(232.294992, self.spacing)
-        self.spacing += 4
-        txtatt = TextAttributes()
-        txtatt.line_spacing = 2
-        txtatt.multiline = True
-        txtatt.size = Vector2.from_xy_mm(1, 1)
-        txtatt.stroke_width = 150000  # nanometers
-        body.attributes = txtatt
-        body.layer = BoardLayer.BL_F_Fab  # Front fabrication layer
-        self.board.create_items(body)
+        self.add_textonce(" Track width: " + self.track_width_value.GetValue() + " mm", False, False)
+        self.add_textonce(" Track spacing: " + self.track_spacing_value.GetValue() + " mm", False, False)
 
     def add_holediameter(self):
         # Create and add body text
-        body = BoardText()
-        body.value = " Hole diameter: " + self.hole_diameter_value.GetValue() + " mm"
-        body.position = Vector2.from_xy_mm(232.294992, self.spacing)
-        self.spacing += 4
-        txtatt = TextAttributes()
-        txtatt.size = Vector2.from_xy_mm(1, 1)
-        txtatt.stroke_width = 150000  # nanometers
-        body.attributes = txtatt
-        body.layer = BoardLayer.BL_F_Fab  # Front fabrication layer
-        self.board.create_items(body)
+        self.add_textonce(" Hole diameter: " + self.hole_diameter_value.GetValue() + " mm", False, False)
 
     def add_impedctrl(self):
         # Create and add body text
-        body = BoardText()
-        body.value = " Impedance control: Yes"
-        body.position = Vector2.from_xy_mm(232.294992, self.spacing)
-        self.spacing += 4
-        txtatt = TextAttributes()
-        txtatt.size = Vector2.from_xy_mm(1, 1)
-        txtatt.stroke_width = 150000  # nanometers
-        body.attributes = txtatt
-        body.layer = BoardLayer.BL_F_Fab  # Front fabrication layer
-        self.board.create_items(body)
-    
+        self.add_textonce(" Impedance control: Yes", False, False)
+
     def add_dimensions(self):
         # Create and add body text
-        body = BoardText()
-        body.value = " Dimensions- width: " + self.dimension_width_value.GetValue() + " mm"
-        body.value += "\n height: " + self.dimension_height_value.GetValue() + " mm"
-        body.position = Vector2.from_xy_mm(232.294992, self.spacing)
-        self.spacing += 4
-        txtatt = TextAttributes()
-        txtatt.line_spacing = 2
-        txtatt.multiline = True
-        txtatt.size = Vector2.from_xy_mm(1, 1)
-        txtatt.stroke_width = 150000  # nanometers
-        body.attributes = txtatt
-        body.layer = BoardLayer.BL_F_Fab  # Front fabrication layer
-        self.board.create_items(body)
+        self.add_textonce(" Dimensions- width: ", False, True)
+        self.add_textonce(self.dimension_width_value.GetValue(), True, True)
+        self.add_textonce(" mm\n", False, False)
+        
+        self.horizontal = 220.310997
+        self.add_textonce("    ", False, True)
+        self.add_textonce(" Dimensions- height: ", False, True)
+        self.add_textonce(self.dimension_height_value.GetValue(), True, True)
+        self.add_textonce("mm\n", False, True)
+        self.add_textonce(" ", False, False)
+        #self.add_textonce(" Dimensions- height: " + self.dimension_height_value.GetValue() + " mm")
 
-    def add_textonce(self, screwyou):
+    def add_textonce(self, screwyou, underline, sameline):
         # Create and add body text
         body = BoardText()
         body.value =  screwyou 
-        body.position = Vector2.from_xy_mm(232.294992, self.spacing)
-        self.spacing += 4
+        
+        if sameline:
+            #self.horizontal += 8
+            
+            body.position = Vector2.from_xy_mm(self.horizontal, self.spacing)
+            self.horizontal += len(screwyou)+2
+            
+        else:
+            # self.spacing += 4
+            body.position = Vector2.from_xy_mm(self.horizontal, self.spacing)
+            self.spacing += 4
         txtatt = TextAttributes()
         txtatt.size = Vector2.from_xy_mm(1, 1)
+        txtatt.horizontal_alignment = 1 #left alignment
         txtatt.stroke_width = 150000  # nanometers
+        if underline:
+            txtatt.underlined = True  # Underline the text
         body.attributes = txtatt
         body.layer = BoardLayer.BL_F_Fab  # Front fabrication layer
         self.board.create_items(body)
