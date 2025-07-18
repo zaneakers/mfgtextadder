@@ -200,12 +200,34 @@ class mfgtextadder ( wx.Dialog ):
 
         mainsizer.Add( sizer_values, 1, wx.ALL, 5 )
 
+        fgSizer6 = wx.FlexGridSizer( 2, 1, 0, 0 )
+        fgSizer6.SetFlexibleDirection( wx.BOTH )
+        fgSizer6.SetNonFlexibleGrowMode( wx.FLEX_GROWMODE_SPECIFIED )
+
+        self.statictextpluginheader1 = wx.StaticText( self, wx.ID_ANY, _(u"This is where your custom text-adders go, after you choose \"add to plugin\", hit \"run\", and restart the editor"), wx.DefaultPosition, wx.DefaultSize, 0 )
+        self.statictextpluginheader1.Wrap( 350 )
+
+        self.statictextpluginheader1.SetBackgroundColour( wx.SystemSettings.GetColour( wx.SYS_COLOUR_ACTIVECAPTION ) )
+
+        fgSizer6.Add( self.statictextpluginheader1, 0, wx.ALL, 5 )
+
         addtopluginsizer = wx.FlexGridSizer( 0, 2, 0, 0 )
         addtopluginsizer.SetFlexibleDirection( wx.BOTH )
         addtopluginsizer.SetNonFlexibleGrowMode( wx.FLEX_GROWMODE_SPECIFIED )
 
+        self.custom_text_title = wx.CheckBox(self, wx.ID_ANY, "custom_text_title", wx.DefaultPosition, wx.DefaultSize, 0)
+        addtopluginsizer.Add(self.custom_text_title, 0, wx.ALL, 5)
 
-        mainsizer.Add( addtopluginsizer, 1, wx.EXPAND, 2 )
+#text that custom_text_title spits out into the pcb:  this very professional text box is so you can add your own text to the pcb
+        self.custom_text_title_removebutton = wx.ToggleButton( self, wx.ID_ANY, "custom_text_title_removebutton", wx.DefaultPosition, wx.DefaultSize, 0 )
+        addtopluginsizer.Add(self.custom_text_title_removebutton, 0, wx.ALL, 5)
+
+
+
+        fgSizer6.Add( addtopluginsizer, 1, wx.ALIGN_CENTER, 5 )
+
+
+        mainsizer.Add( fgSizer6, 1, wx.ALL, 5 )
 
 
         overallsizer.Add( mainsizer, 1, wx.EXPAND, 5 )
@@ -216,7 +238,7 @@ class mfgtextadder ( wx.Dialog ):
 
         plugintitlesizer = wx.BoxSizer( wx.VERTICAL )
 
-        self.titleinput = wx.TextCtrl( self, wx.ID_ANY, _(u"customadder title"), wx.DefaultPosition, wx.DefaultSize, wx.TE_MULTILINE )
+        self.titleinput = wx.TextCtrl( self, wx.ID_ANY, _(u"custom text title"), wx.DefaultPosition, wx.Size( 130,70 ), wx.TE_MULTILINE )
         plugintitlesizer.Add( self.titleinput, 0, wx.ALL, 5 )
 
 
@@ -226,13 +248,13 @@ class mfgtextadder ( wx.Dialog ):
         editortextsizer.SetFlexibleDirection( wx.BOTH )
         editortextsizer.SetNonFlexibleGrowMode( wx.FLEX_GROWMODE_SPECIFIED )
 
-        self.editortext = wx.TextCtrl( self, wx.ID_ANY, _(u" this very professional text box is so you can add your own text to the pcb"), wx.DefaultPosition, wx.Size( 700,50 ), wx.TE_MULTILINE )
+        self.editortext = wx.TextCtrl( self, wx.ID_ANY, _(u" this very professional text box is so you can add your own text to the pcb"), wx.DefaultPosition, wx.Size( 650,80 ), wx.TE_MULTILINE )
         editortextsizer.Add( self.editortext, 0, wx.ALL, 5 )
 
 
         editortextoverallsizer.Add( editortextsizer, 1, wx.EXPAND, 5 )
 
-        editortextbuttonsizer = wx.FlexGridSizer( 2, 1, 0, 0 )
+        editortextbuttonsizer = wx.FlexGridSizer( 3, 1, 0, 0 )
         editortextbuttonsizer.SetFlexibleDirection( wx.BOTH )
         editortextbuttonsizer.SetNonFlexibleGrowMode( wx.FLEX_GROWMODE_SPECIFIED )
 
@@ -241,6 +263,9 @@ class mfgtextadder ( wx.Dialog ):
 
         self.addtoplugin = wx.RadioButton( self, wx.ID_ANY, _(u"Add to Plugin"), wx.DefaultPosition, wx.DefaultSize, 0 )
         editortextbuttonsizer.Add( self.addtoplugin, 0, wx.ALL, 5 )
+
+        self.donothingbutton = wx.RadioButton( self, wx.ID_ANY, _(u"Do nothing"), wx.DefaultPosition, wx.DefaultSize, 0 )
+        editortextbuttonsizer.Add( self.donothingbutton, 0, wx.ALL, 5 )
 
 
         editortextoverallsizer.Add( editortextbuttonsizer, 1, wx.EXPAND, 5 )

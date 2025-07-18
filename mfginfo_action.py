@@ -10,7 +10,7 @@ from copy import deepcopy
 from typing import Set
 import re
 
-from mfgtextadderbase import mfgtextadder
+from ui.mfgtextadderbase import mfgtextadder
 
 ###kipy imports####
 from kipy import KiCad
@@ -66,8 +66,8 @@ class MfgInfoAction(mfgtextadder):
         self.board.create_items(heading)
 
     def run(self, event):
-        alphabet = ["A.  ", "B.  ", "C.  ", "D.  ", "E.  ", "F.  ", "G.  ", "H.  ", "I.  ", "J.  ", "K.  ", "L.  ", "M.  "]
-        index = 0
+        self.alphabet = ["A.  ", "B.  ", "C.  ", "D.  ", "E.  ", "F.  ", "G.  ", "H.  ", "I.  ", "J.  ", "K.  ", "L.  ", "M.  "]
+        self.index = 0
         self.spacing = 19.946399
         self.horizontal = 220.310997
         self.add_heading_text()
@@ -95,16 +95,16 @@ class MfgInfoAction(mfgtextadder):
         # default text additions
         if self.copper_count.IsChecked():
             self.horizontal = 220.310997
-            self.add_textonce(alphabet[index], False, True)
-            index += 1
+            self.add_textonce(self.alphabet[self.index], False, True)
+            self.index += 1
             self.number_copperlayers()
             
 
         if self.drill_plot_show.IsChecked():
             print("Drill Plot checkbox checked.")
             self.horizontal = 220.310997
-            self.add_textonce(alphabet[index], False, True)
-            index += 1
+            self.add_textonce(self.alphabet[self.index], False, True)
+            self.index += 1
             self.add_drillplot()
            
 
@@ -112,16 +112,16 @@ class MfgInfoAction(mfgtextadder):
         if self.silkscreen_color.IsChecked():
             print("Silkscreen checkbox checked.")
             self.horizontal = 220.310997
-            self.add_textonce(alphabet[index], False, True)
-            index += 1
+            self.add_textonce(self.alphabet[self.index], False, True)
+            self.index += 1
             self.add_silkscreen()
             
 
         if self.front_copperweight.IsChecked():
             print("Front Copper checkbox checked.")
             self.horizontal = 220.310997
-            self.add_textonce(alphabet[index], False, True)
-            index += 1
+            self.add_textonce(self.alphabet[self.index], False, True)
+            self.index += 1
             self.add_frontcopper()
             
 
@@ -129,38 +129,38 @@ class MfgInfoAction(mfgtextadder):
         if self.back_copperweight.IsChecked():
             print("Back Copper checkbox checked.")
             self.horizontal = 220.310997
-            self.add_textonce(alphabet[index], False, True)
-            index += 1
+            self.add_textonce(self.alphabet[self.index], False, True)
+            self.index += 1
             self.add_backcopper()
             
         
         if self.mask_color.IsChecked():
             print("Soldermask checkbox checked.")
             self.horizontal = 220.310997
-            self.add_textonce(alphabet[index], False, True)
-            index += 1
+            self.add_textonce(self.alphabet[self.index], False, True)
+            self.index += 1
             self.add_soldercolor()
    
         if self.board_thickness.IsChecked():
             print("Board Thickness checkbox checked.")
             self.horizontal = 220.310997
-            self.add_textonce(alphabet[index], False, True)
-            index += 1
+            self.add_textonce(self.alphabet[self.index], False, True)
+            self.index += 1
             self.add_boardthickness()
      
         if self.copper_srf_overall.IsChecked():
             print("Copper Surface Finish checkbox checked.")
             self.horizontal = 220.310997
-            self.add_textonce(alphabet[index], False, True)
-            index += 1
+            self.add_textonce(self.alphabet[self.index], False, True)
+            self.index += 1
             self.add_copper_surface()
         
 
         if self.trackwidth_spacing.IsChecked():
             print("Track Width and Spacing checkbox checked.")
             self.horizontal = 220.310997
-            self.add_textonce(alphabet[index], False, True)
-            index += 1
+            self.add_textonce(self.alphabet[self.index], False, True)
+            self.index += 1
             self.add_trackwidth_spacing()
            
         
@@ -170,23 +170,23 @@ class MfgInfoAction(mfgtextadder):
             print("Minimum Hole Diameter checkbox checked.")
          
             self.horizontal = 220.310997
-            self.add_textonce(alphabet[index], False, True)
+            self.add_textonce(self.alphabet[self.index], False, True)
             self.add_holediameter()
             
-            index += 1
+            self.index += 1
 
         if self.imped_ctrl.IsChecked():
             print("Impedance Control checkbox checked.")
             self.horizontal = 220.310997
-            self.add_textonce(alphabet[index], False, True)
+            self.add_textonce(self.alphabet[self.index], False, True)
             self.add_impedctrl()
-            index += 1
+            self.index += 1
 
         if self.dimensions.IsChecked():
             print("Dimensions checkbox checked.")
             self.horizontal = 220.310997
-            self.add_textonce(alphabet[index], False, True)
-            index += 1
+            self.add_textonce(self.alphabet[self.index], False, True)
+            self.index += 1
 
             self.add_dimensions()
            
@@ -194,8 +194,8 @@ class MfgInfoAction(mfgtextadder):
 
         if self.applyonce.GetValue():
             self.horizontal = 220.310997
-            self.add_textonce(alphabet[index], False, True)
-            index += 1
+            self.add_textonce(self.alphabet[self.index], False, True)
+            self.index += 1
             self.add_textonce(self.editortext.GetValue(), False, False)
 
         if self.addtoplugin.GetValue():
@@ -297,17 +297,17 @@ class MfgInfoAction(mfgtextadder):
         self.add_textonce(" ", False, False)
         #self.add_textonce(" Dimensions- height: " + self.dimension_height_value.GetValue() + " mm")
 
-    def add_textonce(self, screwyou, underline, sameline):
+    def add_textonce(self, inputtext, underline, sameline):
         # Create and add body text
         body = BoardText()
-        body.value =  screwyou 
+        body.value =  inputtext
         
         if sameline:
             #self.horizontal += 8
             
             body.position = Vector2.from_xy_mm(self.horizontal, self.spacing)
-            self.horizontal += len(screwyou)+2
-            
+            self.horizontal += len(inputtext)+2
+
         else:
             # self.spacing += 4
             body.position = Vector2.from_xy_mm(self.horizontal, self.spacing)
@@ -328,21 +328,23 @@ class MfgInfoAction(mfgtextadder):
         ###get user input regarding plugin title and name of remove button
         plugin_title = self.titleinput.GetValue().strip().replace(" ", "_")
         if not plugin_title:
-            plugin_title = "myballs"
+            plugin_title = "ur supposed to give this a title nimrod"
         removetitle = plugin_title + "_removebutton"
-
-        self.add_textonce(self.editortext.GetValue())
+        self.horizontal = 220.310997
+        self.add_textonce(self.alphabet[self.index], False, True)
+        self.index += 1
+        self.add_textonce(self.editortext.GetValue(), False, False)
 
 
         markeradd = "        addtopluginsizer.SetNonFlexibleGrowMode( wx.FLEX_GROWMODE_SPECIFIED )"
-        filename = "/home/zane-akers/python_scripts/kicadpython/mfgtextadder/mfgtextadderbase.py"
+        filename = "/home/zane-akers/python_scripts/kicadpython/mfgtextadder/ui/mfgtextadderbase.py"
         with open(filename, "r") as file:
             lines = file.readlines()
         newlines = []
-        for index, line in enumerate(lines):
+        for i, line in enumerate(lines):
             newlines.append(line)
             if markeradd in line:
-                newlines.insert(index+1, f"\n        self.{plugin_title} = wx.CheckBox(self, wx.ID_ANY, \"{plugin_title}\", wx.DefaultPosition, wx.DefaultSize, 0)\n")
+                newlines.insert(i+1, f"\n        self.{plugin_title} = wx.CheckBox(self, wx.ID_ANY, \"{plugin_title}\", wx.DefaultPosition, wx.DefaultSize, 0)\n")
                 newlines.append(f"        addtopluginsizer.Add(self.{plugin_title}, 0, wx.ALL, 5)\n\n")
                 newlines.append(f"#text that {plugin_title} spits out into the pcb: {self.editortext.GetValue()}\n")
                 newlines.append(f"        self.{removetitle} = wx.ToggleButton( self, wx.ID_ANY, \"{removetitle}\", wx.DefaultPosition, wx.DefaultSize, 0 )\n")
@@ -355,7 +357,7 @@ class MfgInfoAction(mfgtextadder):
         marker1 = self.buttontoremove
         marker2 = self.buttontoremove.replace("_removebutton", "")
         print("buttontoremove", self.buttontoremove)
-        filename = "/home/zane-akers/python_scripts/kicadpython/mfgtextadder/mfgtextadderbase.py"
+        filename = "/home/zane-akers/python_scripts/kicadpython/mfgtextadder/ui/mfgtextadderbase.py"
         with open(filename, "r") as file:
             lines = file.readlines()
         newlines = []
@@ -373,7 +375,7 @@ class MfgInfoAction(mfgtextadder):
 
     def getremovebuttonslist(self):
         marker = "_removebutton"
-        filename = "/home/zane-akers/python_scripts/kicadpython/mfgtextadder/mfgtextadderbase.py"
+        filename = "/home/zane-akers/python_scripts/kicadpython/mfgtextadder/ui/mfgtextadderbase.py"
         buttonlist = []
         with open(filename, "r") as file:
             lines = file.readlines()
@@ -399,7 +401,7 @@ class MfgInfoAction(mfgtextadder):
                             'self.copper_srf_overall', 'self.trackwidth_spacing', 
                             'self.min_hole_diameter', 'self.imped_ctrl', 'self.dimensions']
         markercheck = "wx.CheckBox"
-        filename = "/home/zane-akers/python_scripts/kicadpython/mfgtextadder/mfgtextadderbase.py"
+        filename = "/home/zane-akers/python_scripts/kicadpython/mfgtextadder/ui/mfgtextadderbase.py"
         checkboxlist = []
         with open(filename, "r") as file:
             lines = file.readlines()
@@ -419,7 +421,7 @@ class MfgInfoAction(mfgtextadder):
 
     def usermadepluginbackend(self, plugin_title):
         marker = f"#text that {plugin_title} spits out into the pcb: "
-        filename = "/home/zane-akers/python_scripts/kicadpython/mfgtextadder/mfgtextadderbase.py"
+        filename = "/home/zane-akers/python_scripts/kicadpython/mfgtextadder/ui/mfgtextadderbase.py"
 
         with open(filename, "r") as file:
             lines = file.readlines()
@@ -431,8 +433,10 @@ class MfgInfoAction(mfgtextadder):
                 usermadeplugintext += line.split(marker)[1] + "\n"
 
         print(usermadeplugintext)
-
-        self.add_textonce(usermadeplugintext)
+        self.horizontal = 220.310997
+        self.add_textonce(self.alphabet[self.index], False, True)
+        self.index += 1
+        self.add_textonce(usermadeplugintext, False, False)
         
 
 if __name__ == "__main__":
