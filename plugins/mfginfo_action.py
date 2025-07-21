@@ -10,7 +10,7 @@ from copy import deepcopy
 from typing import Set
 import re
 
-from ui.mfgtextadderbase import mfgtextadder
+from plugins.mfgtextadderbase import mfgtextadder
 
 ###kipy imports####
 from kipy import KiCad
@@ -337,7 +337,7 @@ class MfgInfoAction(mfgtextadder):
 
 
         markeradd = "        addtopluginsizer.SetNonFlexibleGrowMode( wx.FLEX_GROWMODE_SPECIFIED )"
-        filename = "/home/zane-akers/python_scripts/kicadpython/mfgtextadder/ui/mfgtextadderbase.py"
+        filename = "/home/zane-akers/python_scripts/kicadpython/mfgtextadder/plugins/mfgtextadderbase.py"
         with open(filename, "r") as file:
             lines = file.readlines()
         newlines = []
@@ -357,7 +357,7 @@ class MfgInfoAction(mfgtextadder):
         marker1 = self.buttontoremove
         marker2 = self.buttontoremove.replace("_removebutton", "")
         print("buttontoremove", self.buttontoremove)
-        filename = "/home/zane-akers/python_scripts/kicadpython/mfgtextadder/ui/mfgtextadderbase.py"
+        filename = "/home/zane-akers/python_scripts/kicadpython/mfgtextadder/plugins/mfgtextadderbase.py"
         with open(filename, "r") as file:
             lines = file.readlines()
         newlines = []
@@ -375,7 +375,7 @@ class MfgInfoAction(mfgtextadder):
 
     def getremovebuttonslist(self):
         marker = "_removebutton"
-        filename = "/home/zane-akers/python_scripts/kicadpython/mfgtextadder/ui/mfgtextadderbase.py"
+        filename = "/home/zane-akers/python_scripts/kicadpython/mfgtextadder/plugins/mfgtextadderbase.py"
         buttonlist = []
         with open(filename, "r") as file:
             lines = file.readlines()
@@ -401,7 +401,7 @@ class MfgInfoAction(mfgtextadder):
                             'self.copper_srf_overall', 'self.trackwidth_spacing', 
                             'self.min_hole_diameter', 'self.imped_ctrl', 'self.dimensions']
         markercheck = "wx.CheckBox"
-        filename = "/home/zane-akers/python_scripts/kicadpython/mfgtextadder/ui/mfgtextadderbase.py"
+        filename = "/home/zane-akers/python_scripts/kicadpython/mfgtextadder/plugins/mfgtextadderbase.py"
         checkboxlist = []
         with open(filename, "r") as file:
             lines = file.readlines()
@@ -421,7 +421,7 @@ class MfgInfoAction(mfgtextadder):
 
     def usermadepluginbackend(self, plugin_title):
         marker = f"#text that {plugin_title} spits out into the pcb: "
-        filename = "/home/zane-akers/python_scripts/kicadpython/mfgtextadder/ui/mfgtextadderbase.py"
+        filename = "/home/zane-akers/python_scripts/kicadpython/mfgtextadder/plugins/mfgtextadderbase.py"
 
         with open(filename, "r") as file:
             lines = file.readlines()
