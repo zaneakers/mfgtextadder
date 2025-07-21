@@ -51,7 +51,7 @@
       <property name="name">mfgtextadder</property>
       <property name="pos"></property>
       <property name="size">1050,780</property>
-      <property name="style">wxDEFAULT_DIALOG_STYLE|wxMAXIMIZE_BOX|wxMINIMIZE_BOX|wxRESIZE_BORDER</property>
+      <property name="style">wxDEFAULT_DIALOG_STYLE</property>
       <property name="subclass">; ; forward_declare</property>
       <property name="title">Manufacturing Data editor</property>
       <property name="tooltip"></property>

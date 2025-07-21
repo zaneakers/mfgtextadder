@@ -20,7 +20,7 @@ _ = gettext.gettext
 class mfgtextadder ( wx.Dialog ):
 
     def __init__( self, parent ):
-        wx.Dialog.__init__ ( self, parent, id = wx.ID_ANY, title = _(u"Manufacturing Data editor"), pos = wx.DefaultPosition, size = wx.Size( 1050,780 ), style = wx.DEFAULT_DIALOG_STYLE|wx.MAXIMIZE_BOX|wx.MINIMIZE_BOX|wx.RESIZE_BORDER )
+        wx.Dialog.__init__ ( self, parent, id = wx.ID_ANY, title = _(u"Manufacturing Data editor"), pos = wx.DefaultPosition, size = wx.Size( 1050,780 ), style = wx.DEFAULT_DIALOG_STYLE )
 
         self.SetSizeHints( wx.DefaultSize, wx.DefaultSize )
 
@@ -214,14 +214,6 @@ class mfgtextadder ( wx.Dialog ):
         addtopluginsizer = wx.FlexGridSizer( 0, 2, 0, 0 )
         addtopluginsizer.SetFlexibleDirection( wx.BOTH )
         addtopluginsizer.SetNonFlexibleGrowMode( wx.FLEX_GROWMODE_SPECIFIED )
-
-        self.custom_text_title = wx.CheckBox(self, wx.ID_ANY, "custom_text_title", wx.DefaultPosition, wx.DefaultSize, 0)
-        addtopluginsizer.Add(self.custom_text_title, 0, wx.ALL, 5)
-
-#text that custom_text_title spits out into the pcb:  this very professional text box is so you can add your own text to the pcb
-        self.custom_text_title_removebutton = wx.ToggleButton( self, wx.ID_ANY, "custom_text_title_removebutton", wx.DefaultPosition, wx.DefaultSize, 0 )
-        addtopluginsizer.Add(self.custom_text_title_removebutton, 0, wx.ALL, 5)
-
 
 
         fgSizer6.Add( addtopluginsizer, 1, wx.ALIGN_CENTER, 5 )

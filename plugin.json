@@ -1,28 +1,8 @@
 {
     "$schema": "https://go.kicad.org/api/schemas/v1",
-    "name": "Manufacturing Data Text Adder",
-    "description": "Adds manufacturing data text to the PCB",
-    "description_full": "I came up with this theme in a dream one night.",
     "identifier": "com.github.zaneakers.mfgtextadder",
-    "type": "plugin",
-    "author": {
-        "name": "Zane Akers",
-        "contact": {
-            "web": "https://github.com/zaneakers"
-        }
-    },
-    "license": "WTFPL",
-    "resources": {
-        "homepage": "https://github.com/zaneakers/mfgtextadder.git"
-    },
-    "versions": [
-        {
-            "version": "1.0",
-            "status": "stable",
-            "kicad_version": "9.02"
-            
-        }
-    ],
+    "name": "MFG Text Adder",
+    "description": "Adds manufacturing data text to the PCB",
     "runtime": {
         "type": "python",
         "min_version": "3.9"
@@ -30,7 +10,7 @@
     "actions": [
         {
             "identifier": "mfginfo_action",
-            "name": "Manufacturing Data Text Adder",
+            "name": "MFG Text Adder",
             "description": "Adds manufacturing data text to the PCB",
             "show-button": true,
             "scopes": [
@@ -42,6 +22,4 @@
             ]
         }
     ]
-    
-    
 }
