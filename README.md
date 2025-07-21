@@ -1,15 +1,12 @@
-# KiCad Round Tracks
+# KiCad Manufacturing Text Adder
 
-This `kicad-python` example is based on the KiCad Round Tracks plugin
-by mitxela, located at https://github.com/mitxela/kicad-round-tracks
+Download zip file, extract and move contents to ~/.local/share/KiCad/9.0/plugins for Linux, elsewhere for inferior os.
 
-For more information about the algorithm, please see the original
-plugin repository.
+Creates results similar to this based on input:
+
+<img width="285" height="368" alt="image" src="https://github.com/user-attachments/assets/639695b9-382d-4dcb-becd-efb65855eff1" />
+
+
 
 The files in this directory are licensed under the Apache license, version 2.0.
 See the LICENSE file for the full license text.
-
-Original copyright Miles McCoo, 2017  
-Extensively modified by Julian Loiacono, Oct 2018  
-Multi-layer support and repacked as action plugin by Antoine Pintout, May 2019  
-Updated subdivision algorithm by mitxela, Jan 2021  
